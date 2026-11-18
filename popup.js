@@ -14,6 +14,13 @@
   const clearCacheBtn = document.getElementById('clearCache');
   const dlToggle = document.getElementById('dlToggle');
   const dlCard = document.getElementById('dlCard');
+  const versionEl = document.getElementById('version');
+
+  // 显示当前已安装版本，方便确认是否装上了新版
+  try {
+    const v = chrome.runtime.getManifest().version;
+    if (versionEl) versionEl.textContent = '版本 ' + v;
+  } catch (_) { /* ignore */ }
 
   const ICONS_ON = { 16: 'icons/LOGO16.png', 48: 'icons/LOGO48.png', 128: 'icons/LOGO128.png' };
   const ICONS_OFF = { 16: 'icons/icon16.png', 48: 'icons/icon48.png', 128: 'icons/icon128.png' };

@@ -65,6 +65,7 @@
     [hidden] { display: none !important; }
     .tip { margin-top: 12px; color: var(--muted); font-size: 11px; line-height: 1.6; }
     .off { color: #9da7b2; }
+    .ver { margin-top: 10px; text-align: center; color: #8c959f; font-size: 11px; }
   </style>
 </head>
 <body>
@@ -95,7 +96,7 @@
         <span class="slider"></span>
       </label>
     </div>
-    <div class="meta">用谷歌 / 微软免费公共接口，翻译词库未覆盖的界面文案。默认关闭。</div>
+    <div class="meta">开启后翻译当前页所有尚未被翻译的英文（含词库未覆盖或已收录但没生效的文案）。时间戳等有确定规则的文案即时本地翻译，其余用谷歌 / 微软免费接口。默认关闭。</div>
     <div class="meta">本页已在线补充 <b id="suppCount">0</b> 处</div>
     <div class="meta" id="suppStatus" hidden></div>
   </div>
@@ -118,9 +119,11 @@
 
   <div id="status" class="meta" hidden></div>
 
+  <div id="version" class="ver">版本 --</div>
+
   <div class="tip">
     切换「启用汉化」会自动刷新标签页。若个别文案未生效，刷新页面即可。<br>
-    <b>补充翻译：</b>默认关闭，手动开启后自动翻译当前页未被词库覆盖的界面文案；关闭即还原。翻译会缓存在本地，减少重复请求。<br>
+    <b>补充翻译：</b>默认关闭，手动开启后对当前页所有还没被翻译的英文执行翻译（包括词库没收录的，以及词库里已有、但在下拉菜单或更新日志等位置没生效的文案）。时间戳、相对日期等有确定规则的文案即时本地翻译，其余走谷歌 / 微软免费接口；新出现的英文也会自动跟随翻译，关闭即还原。<br>
     <b>智能下载：</b>默认开启，读取仓库公开 Release 信息（每 10 分钟缓存一次），点击按钮即下载对应平台的安装包。
   </div>
 

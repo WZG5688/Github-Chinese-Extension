@@ -104,7 +104,9 @@ Github-chinese-extension/
 chrome.exe --pack-extension=<扩展目录的Windows路径> --pack-extension-key=<pem文件路径>
 ```
 
-当前扩展 ID：`elbnbjbdohbeoecggfbnmagogaafkfll`
+当前扩展 ID：`ifomojpncemjfkjbabdecpjedcappcpp`
+
+> 私钥已加入 `.gitignore`，请勿提交或删除。若不慎丢失，重新打包会得到新的扩展 ID，更新时需先卸载旧版，设置与缓存会重置。
 
 ---
 
