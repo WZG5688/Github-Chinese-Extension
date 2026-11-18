@@ -18,7 +18,8 @@
   };
 
   var enabled = true;
-  var collapsed = false;
+  var collapsed = false;        // 整个面板收起为小圆点
+  var bodyCollapsed = false;    // 仅折叠平台下载按钮列表，默认展开
   var currentRepoKey = '';
   var currentSystem = null;
   var lastResult = null;
@@ -210,6 +211,7 @@
       '.ghcn-rd-btn .ghcn-rd-cur{float:right;font-size:10px;color:#0969da;font-weight:600;}' +
       '.ghcn-rd-btn .ghcn-rd-file{display:block;color:#656d76;font-size:10.5px;' +
       'white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px;}' +
+      '.ghcn-rd-body.ghcn-rd-hidden,.ghcn-rd-msg.ghcn-rd-hidden{display:none;}' +
       '.ghcn-rd-foot{padding:0 9px 9px;}' +
       '.ghcn-rd-foot a{color:#0969da;font-size:11px;text-decoration:none;}' +
       '.ghcn-rd-foot a:hover{text-decoration:underline;}' +
@@ -262,15 +264,17 @@
     el.className = '';
     var head = '<div class="ghcn-rd-head"><div><b>⬇ 快速下载</b>' +
       (result && result.tag ? '<span class="ghcn-rd-tag">' + escapeHtml(result.tag) + '</span>' : '') +
-      '</div><button class="ghcn-rd-fold" title="收起">−</button></div>';
+      '</div><button class="ghcn-rd-fold" title="' + (bodyCollapsed ? '展开下载按钮' : '收起下载按钮') + '">' +
+      (bodyCollapsed ? '+' : '−') + '</button></div>';
 
+    var hideCls = bodyCollapsed ? ' ghcn-rd-hidden' : '';
     var body = '';
     if (!result) {
-      body = '<div class="ghcn-rd-msg">正在读取最新版本…</div>';
+      body = '<div class="ghcn-rd-msg' + hideCls + '">正在读取最新版本…</div>';
     } else if (!result.ok) {
-      body = '<div class="ghcn-rd-msg">' + escapeHtml(result.error || '读取失败') + '</div>';
+      body = '<div class="ghcn-rd-msg' + hideCls + '">' + escapeHtml(result.error || '读取失败') + '</div>';
     } else if (!result.assets || !result.assets.length) {
-      body = '<div class="ghcn-rd-msg">该版本没有可用安装包。</div>';
+      body = '<div class="ghcn-rd-msg' + hideCls + '">该版本没有可用安装包。</div>';
     } else {
       var platforms = [
         { os: 'linux', label: '🐧 Linux' },
@@ -278,7 +282,7 @@
         { os: 'windows', label: '🪟 Windows' },
         { os: 'android', label: '🤖 Android' }
       ];
-      body = '<div class="ghcn-rd-body"><div class="ghcn-rd-tip' + (sys.os === 'unknown' ? '' : ' hl') + '">' +
+      body = '<div class="ghcn-rd-body' + (bodyCollapsed ? ' ghcn-rd-hidden' : '') + '"><div class="ghcn-rd-tip' + (sys.os === 'unknown' ? '' : ' hl') + '">' +
         (sys.os === 'unknown' ? '未能识别当前系统，已按常见架构推荐。' : '系统已识别，点击下载对应安装包。') +
         '</div>';
       platforms.forEach(function (p) {
@@ -303,7 +307,18 @@
     var foot = '<div class="ghcn-rd-foot"><a href="' + escapeHtml(repoUrl) + '" target="_blank" rel="noopener">查看全部版本 →</a></div>';
     el.innerHTML = head + body + foot;
 
+    // 点标题栏其它区域：整个面板收起为小圆点
     el.querySelector('.ghcn-rd-head').onclick = function () { collapsed = true; renderPanel(); };
+    // 点右上角减号/加号：仅折叠或展开下发的平台下载按钮，阻止冒泡避免触发整面板收起
+    var foldBtn = el.querySelector('.ghcn-rd-fold');
+    if (foldBtn) {
+      foldBtn.onclick = function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        bodyCollapsed = !bodyCollapsed;
+        renderPanel();
+      };
+    }
     Array.prototype.forEach.call(el.querySelectorAll('.ghcn-rd-btn[data-url]'), function (btn) {
       btn.onclick = function (e) {
         e.preventDefault();
@@ -333,6 +348,7 @@
     if (key !== currentRepoKey) {
       currentRepoKey = key;
       collapsed = false;
+      bodyCollapsed = false; // 新仓库页默认展开
       lastResult = null;
     }
     if (!currentRepoKey || !enabled) { removePanel(); return; }

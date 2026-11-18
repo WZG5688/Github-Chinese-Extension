@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "GitHub 汉化助手",
   "short_name": "GitHub 汉化",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "将 GitHub 界面文案翻译为中文，并在仓库页提供按系统匹配 Releases 安装包的悬浮下载按钮。",
   "permissions": ["storage", "activeTab"],
   "background": {
