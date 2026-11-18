@@ -123,7 +123,7 @@
     'Most commented': '评论最多',
     'Least commented': '评论最少',
     'Recently updated': '最近更新',
-    'Least recently updated': '最久未更新',
+    'Least recently updated': '许久未更新',
     'Author': '作者',
     'Assignee': '指派人',
     'Comments': '评论',
@@ -2300,6 +2300,9 @@
     'Type: All': '类型：全部',
     // Sort by 弹窗
     'Sort by': '排序方式',
+    // 搜索/列表页排序按钮前缀（DOM 文本节点带冒号，需精确匹配带冒号形式）
+    'Sort by:': '排序方式：',
+    'Sort by: ': '排序方式：',
     'Name ascending (A-Z)': '名称升序 (A-Z)',
     'Name descending (Z-A)': '名称降序 (Z-A)',
     // 功能预览面板正文（在线补充翻译放行区域的兜底词库）
@@ -2348,6 +2351,11 @@
     'Created on': '创建时间',
     'Total comments': '评论总数',
     'Best match': '最佳匹配',
+    // 搜索结果排序下拉（GitHub 搜索页 Sort by 菜单）
+    'Fewest stars': '星标最少',
+    'Most forks': '复制最多',
+    'Fewest forks': '复制最少',
+    'View search docs': '查看搜索文档',
     'Reactions': '回应',
     'Order': '顺序',
     'Customize sections': '自定义板块',
