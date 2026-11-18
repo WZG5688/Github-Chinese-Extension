@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GitHub 汉化助手</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #1f2328;
+      --muted: #656d76;
+      --line: #d8dee4;
+      --accent: #0969da;
+      --bg: #ffffff;
+      --soft: #f6f8fa;
+    }
+    * { box-sizing: border-box; }
+    body {
+      width: 300px;
+      margin: 0;
+      padding: 16px;
+      font: 13px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", sans-serif;
+      color: var(--ink);
+      background: var(--bg);
+    }
+    header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+    header img { width: 32px; height: 32px; }
+    h1 { margin: 0; font-size: 15px; font-weight: 600; letter-spacing: .2px; }
+    .sub { color: var(--muted); font-size: 11px; }
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--soft);
+      padding: 10px 12px;
+      margin-bottom: 12px;
+    }
+    .card.supp { background: #fff8f6; border-color: #f0c9bf; }
+    .card.supp.on { background: #fff2ee; border-color: #e6a595; }
+    .card.dl { background: #f3f8ff; border-color: #b6d4f5; }
+    .card.dl.on { background: #eaf3ff; border-color: #80b4ee; }
+    .row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    .row strong { font-weight: 600; }
+    .switch { position: relative; width: 38px; height: 22px; flex: none; }
+    .switch input { position: absolute; opacity: 0; width: 0; height: 0; }
+    .slider {
+      position: absolute; inset: 0; cursor: pointer;
+      background: #afb8c1; border-radius: 22px; transition: .2s;
+    }
+    .slider::before {
+      content: ""; position: absolute; width: 16px; height: 16px;
+      left: 3px; top: 3px; background: #fff; border-radius: 50%; transition: .2s;
+      box-shadow: 0 1px 2px rgba(0,0,0,.2);
+    }
+    input:checked + .slider { background: var(--accent); }
+    input:checked + .slider::before { transform: translateX(16px); }
+    .meta { margin-top: 8px; color: var(--muted); font-size: 12px; }
+    .meta b { color: var(--ink); }
+    button {
+      width: 100%; padding: 7px 10px; cursor: pointer;
+      font: inherit; font-weight: 600; color: var(--ink);
+      background: var(--bg); border: 1px solid var(--line); border-radius: 6px;
+    }
+    button:hover { background: var(--soft); border-color: #afb8c1; }
+    button:disabled { opacity: .6; cursor: default; }
+    [hidden] { display: none !important; }
+    .tip { margin-top: 12px; color: var(--muted); font-size: 11px; line-height: 1.6; }
+    .off { color: #9da7b2; }
+  </style>
+</head>
+<body>
+  <header>
+    <img id="logo" src="icons/LOGO48.png" alt="">
+    <div>
+      <h1>GitHub 汉化助手</h1>
+      <div class="sub">仅翻译界面，不动代码与评论</div>
+    </div>
+  </header>
+
+  <div class="card">
+    <div class="row">
+      <strong>启用汉化</strong>
+      <label class="switch">
+        <input type="checkbox" id="toggle" checked>
+        <span class="slider"></span>
+      </label>
+    </div>
+    <div class="meta">当前页面已翻译 <b id="count">0</b> 处文案</div>
+  </div>
+
+  <div class="card supp" id="suppCard">
+    <div class="row">
+      <strong>补充翻译</strong>
+      <label class="switch">
+        <input type="checkbox" id="suppToggle">
+        <span class="slider"></span>
+      </label>
+    </div>
+    <div class="meta">用谷歌 / 微软免费公共接口，翻译词库未覆盖的界面文案。默认关闭。</div>
+    <div class="meta">本页已在线补充 <b id="suppCount">0</b> 处</div>
+    <div class="meta" id="suppStatus" hidden></div>
+  </div>
+
+  <div class="card dl" id="dlCard">
+    <div class="row">
+      <strong>智能下载按钮</strong>
+      <label class="switch">
+        <input type="checkbox" id="dlToggle" checked>
+        <span class="slider"></span>
+      </label>
+    </div>
+    <div class="meta">在仓库页右侧显示悬浮面板，自动识别系统并从最新 Release 匹配对应安装包。默认开启。</div>
+  </div>
+
+  <button id="suppRetry" type="button">重新补充翻译本页</button>
+  <button id="clearCache" type="button">清空在线翻译缓存</button>
+
+  <button id="reload" type="button">重新翻译本页</button>
+
+  <div id="status" class="meta" hidden></div>
+
+  <div class="tip">
+    切换「启用汉化」会自动刷新标签页。若个别文案未生效，刷新页面即可。<br>
+    <b>补充翻译：</b>默认关闭，手动开启后自动翻译当前页未被词库覆盖的界面文案；关闭即还原。翻译会缓存在本地，减少重复请求。<br>
+    <b>智能下载：</b>默认开启，读取仓库公开 Release 信息（每 10 分钟缓存一次），点击按钮即下载对应平台的安装包。
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
